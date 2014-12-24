@@ -1,0 +1,8 @@
+Some of these have specific locations in the source that need to be fixed.
+grep for the appropriate tag to find these, e.g.:
+
+    grep TODO1 *.ts
+
+TODO1: Some settings are set to non-ed-compatible defaults.
+TODO2: Command suffixes are not parsed.
+TODO3: Parser.parse() only handles simple ranges. See todo-notes/3.

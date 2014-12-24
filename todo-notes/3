@@ -1,0 +1,10 @@
+Parser.parse() only handles commands with simple ranges of this form:
+[linenumber [ , linenumber]] command suffix
+
+Examples:
+    e foo.txt
+    1p
+    1,2l
+
+It needs to be able to handle the other kinds of addresses and ranges ed
+supports.
