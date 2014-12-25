@@ -1,11 +1,9 @@
 /// <reference path="sync_prompt.ts" />
 /// <reference path="Parser.ts" />
 /// <reference path="Errors.ts" />
+/// <reference path="Types.ts" />
 
 module Ed {
-
-    type EvaluatedRange = [number, number];
-
     export class Editor {
         buffer: string[] = [];
         current_line: number = -1; // -1 when buffer is empty
