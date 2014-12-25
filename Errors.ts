@@ -1,9 +1,9 @@
 module Ed {
-    export class CommandNotImplementedError {
-        name = 'CommandNotImplementedError';
+    export class NotImplementedError {
+        name = 'NotImplementedError';
         message: string;
-        constructor(message) {
-            this.message = message;
+        constructor(feature, component) {
+            this.message = feature + ' not implemented in ' + component;
         }
     }
 
