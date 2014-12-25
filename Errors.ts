@@ -1,4 +1,4 @@
-module Errors {
+module Ed {
     export class CommandNotImplementedError {
         name = 'CommandNotImplementedError';
         message: string;

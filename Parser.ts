@@ -1,30 +1,30 @@
 /// <reference path="Errors.ts" />
 
-module Parser {
+module Ed {
     var PREFIX = /^((\d+)(,(\d+))?)?([A-Za-z])/;
 
-    type ParsedCommand = [
+    export type ParsedCommand = [
         Range,
         string, // command name
         Arguments
     ]
 
-    class Arguments {
+    export class Arguments {
         value: string;
         constructor(value) {
             this.value = value;
         }
     }
 
-    class Range {
+    export class Range {
         type: string;
     }
 
-    class DefaultRange extends Range {
+    export class DefaultRange extends Range {
         type = 'DefaultRange';
     }
 
-    class OneLineRange extends Range {
+    export class OneLineRange extends Range {
         type = 'OneLineRange';
         address: AddressNode;
         constructor (address) {
@@ -33,7 +33,7 @@ module Parser {
         }
     }
 
-    class FullRange extends Range {
+    export class FullRange extends Range {
         type = 'FullRange';
         start: AddressNode;
         end: AddressNode;
@@ -44,11 +44,11 @@ module Parser {
         }
     }
 
-    class AddressNode {
+    export class AddressNode {
         type: string;
     }
 
-    class NumberNode extends AddressNode {
+    export class NumberNode extends AddressNode {
         type = 'NumberNode';
         value: number;
         constructor(value) {
@@ -69,7 +69,7 @@ module Parser {
         var match = raw_command.match(PREFIX);
         var range: Range;
         if (match === null) {
-            throw new Errors.ParsingError();
+            throw new ParsingError();
         } else if (typeof match[1] === 'undefined') { // p
             range = new DefaultRange();
         } else if (typeof match[3] === 'undefined') { // 1p
