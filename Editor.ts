@@ -25,7 +25,7 @@ class Editor {
     }
 
     command_handlers: {[name: string]: (Range, Arguments) => void} = {
-        'z': function (range, args) {
+        'z': (range, args) => {
             // Example command
             console.log(range);
             console.log(args);
