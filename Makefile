@@ -1,4 +1,4 @@
-ed.js :
+ed.js : *.ts
 	node tsc ed.ts --out ed.js
 
 .PHONY : clean
