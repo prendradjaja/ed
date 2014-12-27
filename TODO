@@ -7,3 +7,7 @@ TODO1: Some settings are set to non-ed-compatible defaults.
 TODO2: Command suffixes are not parsed.
 TODO3: Parser.parse() only handles simple ranges. See todo-notes/3.
 TODO4: eval_range() has no error handling for out-of-bounds accesses.
+TODO5: command_handlers.a doesn't handle nontrivial ranges
+TODO6: command_handlers don't check ranges
+TODO7: command_handlers.a doesn't update current_line.
+TODO8: abstract buffer editing away from command_handlers?

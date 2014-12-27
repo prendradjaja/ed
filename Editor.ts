@@ -6,7 +6,7 @@
 module Ed {
     export class Editor {
         buffer: string[] = [];
-        current_line: number = -1; // -1 when buffer is empty
+        current_line: number = -1; // value not defined when buffer is empty
         verbose_help: boolean = true; // TODO1 false
         prompt_string: string = "> "; // TODO1 ""
 
@@ -21,8 +21,8 @@ module Ed {
             var [range, name, args] = parse(command);
             if (name in this.command_handlers) {
                 var evaluated_range = this.eval_range(range);
-                this.current_line = evaluated_range[1];
-                this.command_handlers[name](evaluated_range, args);
+                var real_range = subtract_one(evaluated_range);
+                this.command_handlers[name](real_range, args);
             } else {
                 throw new NotImplementedError(name, 'command_handlers');
             }
@@ -59,6 +59,44 @@ module Ed {
                 console.log(range);
                 console.log(args);
             },
+            'Z': (range, args) => {
+                // Another example command. This is an implementation of ,n
+                for (var i in this.buffer) {
+                    console.log((+i + 1) + '\t' + this.buffer[i]);
+                }
+            },
+            'a': (range, args) => {
+                if (this.buffer_empty()) {
+                    this.buffer = get_literal_input();
+                } else {
+                    if (range[0] !== range[1]) {
+                        throw new NotImplementedError('nontrivial ranges', 'command_handlers.a');
+                    }
+                    var first_half = this.buffer.slice(0, range[0]+1);
+                    var second_half = this.buffer.slice(range[0]+1);
+                    this.buffer = first_half
+                        .concat(get_literal_input())
+                        .concat(second_half);
+                }
+            },
         }
+
+        buffer_empty(): boolean {
+            return this.buffer.length === 0;
+        }
+    }
+
+    function subtract_one(range: EvaluatedRange): EvaluatedRange {
+        return [range[0] - 1, range[1] - 1];
+    }
+
+    function get_literal_input(): string[] {
+        var line = sync_prompt('');
+        var result = [];
+        while (line !== '.') {
+            result.push(line);
+            line = sync_prompt('');
+        }
+        return result;
     }
 }
