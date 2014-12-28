@@ -55,4 +55,6 @@ module Ed {
         }
     }
 
+    export type CommandHandler =
+        (range: EvaluatedRange, args: Arguments) => void;
 }

@@ -53,7 +53,7 @@ module Ed {
             }
         }
 
-        command_handlers: {[name: string]: (range: EvaluatedRange, args: Arguments) => void} = {
+        command_handlers: {[name: string]: CommandHandler} = {
             'z': (range, args) => {
                 // Example command
                 console.log(range);
