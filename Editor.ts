@@ -28,7 +28,7 @@ module Ed {
             }
         }
 
-        eval_range(range): EvaluatedRange {
+        eval_range(range: Range): EvaluatedRange {
             // TODO4 error handling for out-of-bounds?
             switch (range.type) {
                 case 'DefaultRange':
