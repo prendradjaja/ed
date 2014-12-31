@@ -40,6 +40,8 @@ module Ed {
                     var start = this.eval_address((<FullRange> range).start);
                     var end = this.eval_address((<FullRange> range).end);
                     return [start, end];
+                case 'WholeBufferRange':
+                    return [1, this.buffer.length];
                 default:
                     throw new NotImplementedError(range.type, 'eval_range');
             }
@@ -59,10 +61,12 @@ module Ed {
                 console.log(range);
                 console.log(args);
             },
-            'Z': (range, args) => {
-                // Another example command. This is an implementation of ,n
-                for (var i in this.buffer) {
-                    console.log((+i + 1) + '\t' + this.buffer[i]);
+            'n': (range, args) => {
+                var start = range[0];
+                var slice = this.buffer_range(range);
+                for (var i in slice) {
+                    var line_num = +i + 1 + start;
+                    console.log(line_num + '\t' + slice[i]);
                 }
             },
             'a': (range, args) => {

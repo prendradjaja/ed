@@ -5,10 +5,15 @@ module Ed {
     var PREFIX = /^((\d+)(,(\d+))?)?([A-Za-z])/;
 
     export function parse(raw_command: string): ParsedCommand {
-        var [range, name, suffix] = parse_prefix(raw_command);
+        if (raw_command === ',n') {
+            var range = new WholeBufferRange();
+            var name = 'n';
+            var suffix = '';
+        } else {
+            var [range, name, suffix] = parse_prefix(raw_command);
 
-        // TODO2: parse suffix
-
+            // TODO2: parse suffix
+        }
         return [range, name, new Arguments(suffix)];
     }
 

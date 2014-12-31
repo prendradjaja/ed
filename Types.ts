@@ -42,6 +42,10 @@ module Ed {
         }
     }
 
+    export class WholeBufferRange extends Range {
+        type = 'WholeBufferRange';
+    }
+
     export class AddressNode {
         type: string;
     }
