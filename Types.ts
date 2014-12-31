@@ -57,4 +57,7 @@ module Ed {
 
     export type CommandHandler =
         (range: EvaluatedRange, args: Arguments) => void;
+
+    export type LinesFunction =
+        (lines: string[]) => string[];
 }

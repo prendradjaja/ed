@@ -72,17 +72,49 @@ module Ed {
                     if (range[0] !== range[1]) {
                         throw new NotImplementedError('nontrivial ranges', 'command_handlers.a');
                     }
-                    var first_half = this.buffer.slice(0, range[0]+1);
-                    var second_half = this.buffer.slice(range[0]+1);
-                    this.buffer = first_half
-                        .concat(get_literal_input())
-                        .concat(second_half);
+                    this.buffer_insert(range[0]+1, get_literal_input());
                 }
+            },
+            'c': (range, args) => {
+                this.buffer_replace(range, (_) => get_literal_input());
             },
         }
 
         buffer_empty(): boolean {
             return this.buffer.length === 0;
+        }
+
+        // Partition the buffer into three arrays based on the given range:
+        // before, in, and after the range.
+        buffer_thirds(range: EvaluatedRange): [string[], string[], string[]] {
+            var first  = this.buffer.slice(0,        range[0]);
+            var second = this.buffer.slice(range[0], range[1]+1);
+            var third  = this.buffer.slice(range[1]+1);
+            return [first, second, third];
+        }
+
+        // Return the given range.
+        buffer_range(range: EvaluatedRange): string[] {
+            return this.buffer_thirds(range)[1];
+        }
+
+        // Replace the given range with the result of calling a function on
+        // the lines which are to be replaced.
+        buffer_replace(range: EvaluatedRange, callback: LinesFunction): void {
+            var [first, second, third] = this.buffer_thirds(range);
+            second = callback(second);
+            this.buffer = first
+                .concat(second)
+                .concat(third);
+        }
+
+        // Insert some lines into the buffer before the given index.
+        buffer_insert(index: number, lines: string[]) {
+            var first_half = this.buffer.slice(0, index);
+            var second_half = this.buffer.slice(index);
+            this.buffer = first_half
+                .concat(lines)
+                .concat(second_half);
         }
     }
 
