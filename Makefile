@@ -1,5 +1,6 @@
-ed.js : *.ts
-	node tsc ed.ts --out ed.js
+main.js : main.ts Ed/*.ts
+	cat Ed/* > Ed.ts
+	node tsc --module commonjs main.ts
 
 .PHONY : clean
 clean :
