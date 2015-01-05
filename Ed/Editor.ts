@@ -67,7 +67,6 @@ export class Editor {
             // after doing TODO2, args will have to be handled differently
             // TODO9: warn if buffer modified
             this.current_file = args.value.substring(1);
-            console.log(this.current_file);
             this.buffer = fs.readFileSync(this.current_file, 'utf8')
                             .split('\n')
                             .slice(0, -1);
