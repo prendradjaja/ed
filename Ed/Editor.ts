@@ -73,6 +73,9 @@ export class Editor {
                             .slice(0, -1);
             // TODOx print out number of byyyytes?
         },
+        'Q': (range, args) => {
+            process.exit(0);
+        },
         'n': (range, args) => {
             var start = range[0];
             var slice = this.buffer_range(range);
