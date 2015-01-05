@@ -67,10 +67,9 @@ export class Editor {
             // after doing TODO2, args will have to be handled differently
             // TODO9: warn if buffer modified
             this.current_file = args.value.substring(1);
-            this.buffer = fs.readFileSync(this.current_file, 'utf8')
-                            .split('\n')
-                            .slice(0, -1);
-            // TODOx print out number of byyyytes?
+            var file_text = fs.readFileSync(this.current_file, 'utf8');
+            this.buffer = file_text.split('\n').slice(0, -1);
+            console.log(file_text.length);
         },
         'Q': (range, args) => {
             process.exit(0);
