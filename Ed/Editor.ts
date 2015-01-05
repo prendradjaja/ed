@@ -1,8 +1,16 @@
+/// <reference path="/home/pandu/c/dtyped/node/node.d.ts" />
+
+import fs = require('fs');
+
 export class Editor {
     buffer: string[] = [];
     current_line: number = -1; // value not defined when buffer is empty
     verbose_help: boolean = true; // TODO1 false
     prompt_string: string = "> "; // TODO1 ""
+    current_file: string = '';
+        // current_file corresponds to the "default filename" referred to in
+        // the ed manpage. If there is no default filename, the value is the
+        // empty string ''.
 
     main_loop(): void {
         while (true) {
@@ -54,6 +62,16 @@ export class Editor {
             // Example command
             console.log(range);
             console.log(args);
+        },
+        'e': (range, args) => {
+            // after doing TODO2, args will have to be handled differently
+            // TODO9: warn if buffer modified
+            this.current_file = args.value.substring(1);
+            console.log(this.current_file);
+            this.buffer = fs.readFileSync(this.current_file, 'utf8')
+                            .split('\n')
+                            .slice(0, -1);
+            // TODOx print out number of byyyytes?
         },
         'n': (range, args) => {
             var start = range[0];
