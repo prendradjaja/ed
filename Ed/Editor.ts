@@ -11,10 +11,25 @@ export class Editor {
         // current_file corresponds to the "default filename" referred to in
         // the ed manpage. If there is no default filename, the value is the
         // empty string ''.
+    running: boolean = true;
+    input: (s: string) => string = sync_prompt;
+    print: (s: string) => void = console.log;
+
+    constructor(options = {}) {
+        if ('debug' in options && options['debug'] === true) {
+            this.prompt_string = "?";
+            this.print = options['print'] || this.print;
+            this.input = options['input'] || this.input;
+        } else {
+            for (var key in options) {
+                throw new NotImplementedError('options', 'Editor constructor');
+            }
+        }
+    }
 
     main_loop(): void {
-        while (true) {
-            var command = sync_prompt(this.prompt_string);
+        while (this.running) {
+            var command = this.input(this.prompt_string);
             this.process_command(command);
         }
     }
@@ -64,10 +79,10 @@ export class Editor {
             this.current_file = args.value.substring(1);
             var file_text = fs.readFileSync(this.current_file, 'utf8');
             this.buffer = file_text.split('\n').slice(0, -1);
-            console.log(file_text.length);
+            this.print(file_text.length.toString());
         },
         'Q': (range, args) => {
-            process.exit(0);
+            this.running = false;
         },
         'n': (range, args) => {
             var start = range[0];
@@ -86,16 +101,16 @@ export class Editor {
         },
         'a': (range, args) => {
             if (this.buffer_empty()) {
-                this.buffer = get_literal_input();
+                this.buffer = this.get_literal_input();
             } else {
                 if (range[0] !== range[1]) {
                     throw new NotImplementedError('nontrivial ranges', 'command_handlers.a');
                 }
-                this.buffer_insert(range[0]+1, get_literal_input());
+                this.buffer_insert(range[0]+1, this.get_literal_input());
             }
         },
         'c': (range, args) => {
-            this.buffer_replace(range, (_) => get_literal_input());
+            this.buffer_replace(range, (_) => this.get_literal_input());
         },
     }
 
@@ -135,18 +150,18 @@ export class Editor {
             .concat(lines)
             .concat(second_half);
     }
+
+    get_literal_input(): string[] {
+        var line = this.input('');
+        var result = [];
+        while (line !== '.') {
+            result.push(line);
+            line = this.input('');
+        }
+        return result;
+    }
 }
 
 function subtract_one(range: EvaluatedRange): EvaluatedRange {
     return [range[0] - 1, range[1] - 1];
-}
-
-function get_literal_input(): string[] {
-    var line = sync_prompt('');
-    var result = [];
-    while (line !== '.') {
-        result.push(line);
-        line = sync_prompt('');
-    }
-    return result;
 }
