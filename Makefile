@@ -1,6 +1,5 @@
 main.js : main.ts Ed/*.ts
-	tmcat Ed
-	node tsc --module commonjs main.ts | tmtac Ed
+	tmcat Ed -c "node tsc --module commonjs main.ts"
 
 .PHONY : clean
 clean :
