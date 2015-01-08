@@ -112,6 +112,9 @@ export class Editor {
         'c': (range, args) => {
             this.buffer_replace(range, (_) => this.get_literal_input());
         },
+        'd': (range, args) => {
+            this.buffer_replace(range, (_) => []);
+        },
     }
 
     buffer_empty(): boolean {
