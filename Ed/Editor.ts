@@ -58,11 +58,6 @@ export class Editor {
     }
 
     command_handlers: {[name: string]: CommandHandler} = {
-        'z': (range, args) => {
-            // Example command
-            console.log(range);
-            console.log(args);
-        },
         'e': (range, args) => {
             // after doing TODO2, args will have to be handled differently
             // TODO9: warn if buffer modified
