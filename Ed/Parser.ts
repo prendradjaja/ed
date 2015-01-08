@@ -5,6 +5,10 @@ export function parse(raw_command: string): ParsedCommand {
         var range = new WholeBufferRange();
         var name = 'n';
         var suffix = '';
+    } else if (raw_command === ',p') {
+        var range = new WholeBufferRange();
+        var name = 'p';
+        var suffix = '';
     } else {
         var [range, name, suffix] = parse_prefix(raw_command);
 

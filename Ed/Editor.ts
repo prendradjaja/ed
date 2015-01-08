@@ -79,7 +79,14 @@ export class Editor {
             var slice = this.buffer_range(range);
             for (var i in slice) {
                 var line_num = +i + 1 + start;
-                console.log(line_num + '\t' + slice[i]);
+                this.print(line_num + '\t' + slice[i]);
+            }
+        },
+        'p': (range, args) => {
+            var start = range[0];
+            var slice = this.buffer_range(range);
+            for (var i in slice) {
+                this.print(slice[i]);
             }
         },
         'a': (range, args) => {
