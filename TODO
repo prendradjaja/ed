@@ -12,5 +12,5 @@ TODO6: command_handlers don't check ranges
 TODO7: command_handlers.a doesn't update current_line.
 TODO9: Warn when closing etc. a modified buffer
 TODO10: options in Editor constructor
-TODO11: test.ts: input() needs to check mode before reporting success
+TODO11: test.ts: both input and print need to check end of test properly
 TODO12: DRY with n and p commands
