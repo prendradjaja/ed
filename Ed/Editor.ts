@@ -47,28 +47,27 @@ export class Editor {
 
     eval_range(range: Range): EvaluatedRange {
         // TODO4 error handling for out-of-bounds?
-        switch (range.type) {
-            case 'DefaultRange':
-                return [this.current_line, this.current_line];
-            case 'OneLineRange':
-                var address = this.eval_address((<OneLineRange> range).address);
-                return [address, address];
-            case 'FullRange':
-                var start = this.eval_address((<FullRange> range).start);
-                var end = this.eval_address((<FullRange> range).end);
-                return [start, end];
-            case 'WholeBufferRange':
-                return [1, this.buffer.length];
-            default:
-                throw new NotImplementedError(range.type, 'eval_range');
+        if (range instanceof DefaultRange) {
+            return [this.current_line, this.current_line];
+        } else if (range instanceof OneLineRange) {
+            var address = this.eval_address((<OneLineRange> range).address);
+            return [address, address];
+        } else if (range instanceof FullRange) {
+            var start = this.eval_address((<FullRange> range).start);
+            var end = this.eval_address((<FullRange> range).end);
+            return [start, end];
+        } else if (range instanceof WholeBufferRange) {
+            return [1, this.buffer.length];
+        } else {
+            throw new NotImplementedError('some Range subclass', 'eval_range');
         }
     }
 
     eval_address(address: AddressNode): number {
-        if (address.type === 'NumberNode') {
+        if (address instanceof NumberNode) {
             return (<NumberNode> address).value;
         } else {
-            throw new NotImplementedError(address.type, 'eval_address');
+            throw new NotImplementedError('some AddressNode subclass', 'eval_address');
         }
     }
 
