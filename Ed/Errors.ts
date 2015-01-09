@@ -1,4 +1,4 @@
-export class NotImplementedError {
+class NotImplementedError {
     name = 'NotImplementedError';
     message: string;
     constructor(feature, component) {
@@ -6,7 +6,7 @@ export class NotImplementedError {
     }
 }
 
-export class ParsingError {
+class ParsingError {
     name = 'ParsingError';
     message: string;
     constructor(message = '') {

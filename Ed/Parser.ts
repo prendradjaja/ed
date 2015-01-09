@@ -1,6 +1,6 @@
 var PREFIX = /^((\d+)(,(\d+))?)?([A-Za-z])/;
 
-export function parse(raw_command: string): ParsedCommand {
+function parse(raw_command: string): ParsedCommand {
     if (raw_command === ',n') {
         var range = new WholeBufferRange();
         var name = 'n';

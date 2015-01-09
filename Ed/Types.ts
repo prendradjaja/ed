@@ -1,27 +1,27 @@
-export type EvaluatedRange = [number, number];
+type EvaluatedRange = [number, number];
 
-export type ParsedCommand = [
+type ParsedCommand = [
     Range,
     string, // command name
     Arguments
 ]
 
-export class Arguments {
+class Arguments {
     value: string;
     constructor(value) {
         this.value = value;
     }
 }
 
-export class Range {
+class Range {
     type: string;
 }
 
-export class DefaultRange extends Range {
+class DefaultRange extends Range {
     type = 'DefaultRange';
 }
 
-export class OneLineRange extends Range {
+class OneLineRange extends Range {
     type = 'OneLineRange';
     address: AddressNode;
     constructor (address) {
@@ -30,7 +30,7 @@ export class OneLineRange extends Range {
     }
 }
 
-export class FullRange extends Range {
+class FullRange extends Range {
     type = 'FullRange';
     start: AddressNode;
     end: AddressNode;
@@ -41,15 +41,15 @@ export class FullRange extends Range {
     }
 }
 
-export class WholeBufferRange extends Range {
+class WholeBufferRange extends Range {
     type = 'WholeBufferRange';
 }
 
-export class AddressNode {
+class AddressNode {
     type: string;
 }
 
-export class NumberNode extends AddressNode {
+class NumberNode extends AddressNode {
     type = 'NumberNode';
     value: number;
     constructor(value) {
@@ -58,8 +58,8 @@ export class NumberNode extends AddressNode {
     }
 }
 
-export type CommandHandler =
+type CommandHandler =
     (range: EvaluatedRange, args: Arguments) => void;
 
-export type LinesFunction =
+type LinesFunction =
     (lines: string[]) => string[];
