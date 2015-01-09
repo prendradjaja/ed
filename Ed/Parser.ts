@@ -28,10 +28,10 @@ function parse_prefix(raw_command: string): {range: Range; name: string; suffix:
     } else if (typeof match[1] === 'undefined') { // p
         range = new DefaultRange();
     } else if (typeof match[3] === 'undefined') { // 1p
-        range = new OneLineRange(new NumberNode(Number(match[2])));
+        range = new OneLineRange(new NumberAddress(Number(match[2]), 0));
     } else {                                      // 1,2p
-        range = new FullRange(new NumberNode(Number(match[2])),
-                              new NumberNode(Number(match[4])));
+        range = new FullRange(new NumberAddress(Number(match[2]), 0),
+                              new NumberAddress(Number(match[4]), 0));
     }
     var name: string = match[5];
     var suffix: string = raw_command.slice(match[0].length);

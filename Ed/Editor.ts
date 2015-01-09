@@ -63,11 +63,11 @@ export class Editor {
         }
     }
 
-    eval_address(address: AddressNode): number {
-        if (address instanceof NumberNode) {
-            return (<NumberNode> address).value;
+    eval_address(address: Address): number {
+        if (address instanceof NumberAddress) {
+            return (<NumberAddress> address).value;
         } else {
-            throw new NotImplementedError('some AddressNode subclass', 'eval_address');
+            throw new NotImplementedError('some Address subclass', 'eval_address');
         }
     }
 

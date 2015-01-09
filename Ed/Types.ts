@@ -23,7 +23,7 @@ class DefaultRange extends Range {
 }
 
 class OneLineRange extends Range {
-    address: AddressNode;
+    address: Address;
     constructor (address) {
         super();
         this.address = address;
@@ -31,8 +31,8 @@ class OneLineRange extends Range {
 }
 
 class FullRange extends Range {
-    start: AddressNode;
-    end: AddressNode;
+    start: Address;
+    end: Address;
     constructor (start, end) {
         super();
         this.start = start;
@@ -43,14 +43,16 @@ class FullRange extends Range {
 class WholeBufferRange extends Range {
 }
 
-class AddressNode {
+class Address {
+    offset: number;
 }
 
-class NumberNode extends AddressNode {
+class NumberAddress extends Address {
     value: number;
-    constructor(value) {
+    constructor(value, offset) {
         super();
         this.value = value;
+        this.offset = offset;
     }
 }
 
