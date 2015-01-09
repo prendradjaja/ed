@@ -113,6 +113,11 @@ export class Editor {
         'd': (range, args) => {
             this.buffer_replace(range, (_) => []);
         },
+        't': (range, args) => {
+            var copied_lines = this.buffer_range(range);
+            var index = (<LineNumArg> args).value - 1;
+            this.buffer_insert(index + 1, copied_lines);
+        },
     }
 
     buffer_empty(): boolean {
