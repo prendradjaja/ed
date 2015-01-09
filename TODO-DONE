@@ -1,1 +1,2 @@
 TODO8: abstract buffer editing away from command_handlers?
+TODO2: Command suffixes are not parsed.

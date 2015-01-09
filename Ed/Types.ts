@@ -10,9 +10,24 @@ interface ParsedCommand {
 }
 
 class Arguments {
+}
+
+class EmptyArgs extends Arguments {
+}
+
+class FilenameArg extends Arguments {
     value: string;
-    constructor(value) {
-        this.value = value;
+    constructor(filename: string) {
+        super();
+        this.value = filename;
+    }
+}
+
+class LineNumArg extends Arguments {
+    value: number;
+    constructor(line_num: number) {
+        super();
+        this.value = line_num;
     }
 }
 

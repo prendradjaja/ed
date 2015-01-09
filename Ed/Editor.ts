@@ -73,9 +73,8 @@ export class Editor {
 
     command_handlers: {[name: string]: CommandHandler} = {
         'e': (range, args) => {
-            // after doing TODO2, args will have to be handled differently
             // TODO9: warn if buffer modified
-            this.current_file = args.value.substring(1);
+            this.current_file = (<FilenameArg> args).value;
             var file_text = fs.readFileSync(this.current_file, 'utf8');
             this.buffer = file_text.split('\n').slice(0, -1);
             this.print(file_text.length.toString());

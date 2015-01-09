@@ -4,7 +4,6 @@ grep for the appropriate tag to find these, e.g.:
     grep TODO1 *.ts
 
 TODO1: Some settings are set to non-ed-compatible defaults.
-TODO2: Command suffixes are not parsed.
 TODO3: Parser.parse() only handles simple ranges. See todo-notes/3.
 TODO4: eval_range() has no error handling for out-of-bounds accesses.
 TODO5: command_handlers.a doesn't handle nontrivial ranges
@@ -15,3 +14,4 @@ TODO10: options in Editor constructor
 TODO11: test.ts: both input and print need to check end of test properly
 TODO12: DRY with n and p commands
 TODO13: Add error message support
+TODO14: Filenames and line numbers are a little trickier to parse
