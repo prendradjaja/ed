@@ -14,3 +14,4 @@ TODO9: Warn when closing etc. a modified buffer
 TODO10: options in Editor constructor
 TODO11: test.ts: both input and print need to check end of test properly
 TODO12: DRY with n and p commands
+TODO13: Add error message support
