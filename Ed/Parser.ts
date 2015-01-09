@@ -10,14 +10,17 @@ function parse(raw_command: string): ParsedCommand {
         var name = 'p';
         var suffix = '';
     } else {
-        var [range, name, suffix] = parse_prefix(raw_command);
+        var cmd = parse_prefix(raw_command);
+        var range = cmd.range;
+        var name = cmd.name;
+        var suffix = cmd.suffix;
 
         // TODO2: parse suffix
     }
-    return [range, name, new Arguments(suffix)];
+    return {range: range, name: name, args: new Arguments(suffix)};
 }
 
-function parse_prefix(raw_command: string): [Range, string, string] {
+function parse_prefix(raw_command: string): {range: Range; name: string; suffix: string} {
     var match = raw_command.match(PREFIX);
     var range: Range;
     if (match === null) {
@@ -32,5 +35,5 @@ function parse_prefix(raw_command: string): [Range, string, string] {
     }
     var name: string = match[5];
     var suffix: string = raw_command.slice(match[0].length);
-    return [range, name, suffix];
+    return {range: range, name: name, suffix: suffix};
 }

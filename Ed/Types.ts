@@ -1,10 +1,13 @@
-type EvaluatedRange = [number, number];
+interface EvaluatedRange {
+    start: number;
+    end: number;
+}
 
-type ParsedCommand = [
-    Range,
-    string, // command name
-    Arguments
-]
+interface ParsedCommand {
+    range: Range;
+    name: string;
+    args: Arguments;
+}
 
 class Arguments {
     value: string;
@@ -51,8 +54,16 @@ class NumberNode extends AddressNode {
     }
 }
 
-type CommandHandler =
-    (range: EvaluatedRange, args: Arguments) => void;
+interface CommandHandler {
+    (range: EvaluatedRange, args: Arguments): void;
+}
 
-type LinesFunction =
-    (lines: string[]) => string[];
+interface LinesFunction {
+    (lines: string[]): string[];
+}
+
+interface BufferThirds {
+    first: string[];
+    second: string[];
+    third: string[];
+}

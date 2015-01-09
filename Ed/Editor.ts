@@ -35,11 +35,11 @@ export class Editor {
     }
 
     process_command(command: string): void {
-        var [range, name, args] = parse(command);
-        if (name in this.command_handlers) {
-            var evaluated_range = this.eval_range(range);
+        var cmd = parse(command);
+        if (cmd.name in this.command_handlers) {
+            var evaluated_range = this.eval_range(cmd.range);
             var real_range = subtract_one(evaluated_range);
-            this.command_handlers[name](real_range, args);
+            this.command_handlers[cmd.name](real_range, cmd.args);
         } else {
             throw new NotImplementedError(name, 'command_handlers');
         }
@@ -48,16 +48,16 @@ export class Editor {
     eval_range(range: Range): EvaluatedRange {
         // TODO4 error handling for out-of-bounds?
         if (range instanceof DefaultRange) {
-            return [this.current_line, this.current_line];
+            return {start: this.current_line, end: this.current_line};
         } else if (range instanceof OneLineRange) {
             var address = this.eval_address((<OneLineRange> range).address);
-            return [address, address];
+            return {start: address, end: address};
         } else if (range instanceof FullRange) {
             var start = this.eval_address((<FullRange> range).start);
             var end = this.eval_address((<FullRange> range).end);
-            return [start, end];
+            return {start: start, end: end};
         } else if (range instanceof WholeBufferRange) {
-            return [1, this.buffer.length];
+            return {start: 1, end: this.buffer.length};
         } else {
             throw new NotImplementedError('some Range subclass', 'eval_range');
         }
@@ -84,7 +84,7 @@ export class Editor {
             this.running = false;
         },
         'n': (range, args) => {
-            var start = range[0];
+            var start = range.start;
             var slice = this.buffer_range(range);
             for (var i in slice) {
                 var line_num = +i + 1 + start;
@@ -92,7 +92,7 @@ export class Editor {
             }
         },
         'p': (range, args) => {
-            var start = range[0];
+            var start = range.start;
             var slice = this.buffer_range(range);
             for (var i in slice) {
                 this.print(slice[i]);
@@ -102,10 +102,10 @@ export class Editor {
             if (this.buffer_empty()) {
                 this.buffer = this.get_literal_input();
             } else {
-                if (range[0] !== range[1]) {
+                if (range.start !== range.end) {
                     throw new NotImplementedError('nontrivial ranges', 'command_handlers.a');
                 }
-                this.buffer_insert(range[0]+1, this.get_literal_input());
+                this.buffer_insert(range.start+1, this.get_literal_input());
             }
         },
         'c': (range, args) => {
@@ -122,26 +122,26 @@ export class Editor {
 
     // Partition the buffer into three arrays based on the given range:
     // before, in, and after the range.
-    buffer_thirds(range: EvaluatedRange): [string[], string[], string[]] {
-        var first  = this.buffer.slice(0,        range[0]);
-        var second = this.buffer.slice(range[0], range[1]+1);
-        var third  = this.buffer.slice(range[1]+1);
-        return [first, second, third];
+    buffer_thirds(range: EvaluatedRange): BufferThirds {
+        var first  = this.buffer.slice(0,        range.start);
+        var second = this.buffer.slice(range.start, range.end+1);
+        var third  = this.buffer.slice(range.end+1);
+        return {first: first, second: second, third: third};
     }
 
     // Return the given range.
     buffer_range(range: EvaluatedRange): string[] {
-        return this.buffer_thirds(range)[1];
+        return this.buffer_thirds(range).second;
     }
 
     // Replace the given range with the result of calling a function on
     // the lines which are to be replaced.
     buffer_replace(range: EvaluatedRange, callback: LinesFunction): void {
-        var [first, second, third] = this.buffer_thirds(range);
-        second = callback(second);
-        this.buffer = first
-            .concat(second)
-            .concat(third);
+        var x = this.buffer_thirds(range);
+        x.second = callback(x.second);
+        this.buffer = x.first
+            .concat(x.second)
+            .concat(x.third);
     }
 
     // Insert some lines into the buffer before the given index.
@@ -165,5 +165,5 @@ export class Editor {
 }
 
 function subtract_one(range: EvaluatedRange): EvaluatedRange {
-    return [range[0] - 1, range[1] - 1];
+    return {start: range.start - 1, end: range.end - 1};
 }
