@@ -41,7 +41,7 @@ export class Editor {
             var real_range = subtract_one(evaluated_range);
             this.command_handlers[cmd.name](real_range, cmd.args);
         } else {
-            throw new NotImplementedError(name, 'command_handlers');
+            throw new NotImplementedError(cmd.name, 'command_handlers');
         }
     }
 
