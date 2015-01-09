@@ -4,7 +4,7 @@ ed.ts is a TypeScript reimplementation of ed, the standard text editor.
 
 Build tools:
 
-* [TypeScript compiler](https://github.com/Microsoft/TypeScript), commit edd3974b
+* [TypeScript compiler](https://github.com/Microsoft/TypeScript)
 
 Library dependencies:
 
